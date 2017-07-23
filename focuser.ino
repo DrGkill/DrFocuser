@@ -14,10 +14,6 @@
 #define MS2 8
 #define MS3 9
 
-#define INITFREQ (90)
-#define STEP_SHIFT (20)
-
-const int freq = 10369;
 int POS = 0;
 int DIR = 0; // 0 = Anticlockwise, 1 = clockwise
 int MOT = 0;
@@ -51,7 +47,7 @@ void setup(void)
 
 void pg_version(void)
 {
-  Serial.println("DrFocuser v0.1");
+  Serial.println("DrFocuser v0.2");
   Serial.println("Starting now !");
 }
 
