@@ -1,5 +1,3 @@
-#include <TimerOne.h>
-
 // DrFocuser v0.2 Arduino code
 // Work with stepper Nema motors and polulu driver
 // Work with a serial console, type H for help in the console
@@ -38,9 +36,7 @@ void setup(void)
   
   // Set microstep mode
   //setMicroStep();
-  //fastSpeed();
-  
-  //Timer1.attachInterrupt(sideralSpeed);
+
   Serial.begin(115200);
   
 }
@@ -98,13 +94,16 @@ int moveNstep(int steps)
     return 0;
   }
   if(POS-steps < 0 and DIR == 1) {
+    // The asked position is below 0 position, so move to 0
     steps = POS;
   }
   
-  Timer1.detachInterrupt();
-  //enable motor
-  setMotorOn();
-  setFullStep();
+  //enable motor if its off and wait 1ms for it to be fully ready
+  if (MOT == 0){
+    setMotorOn();
+    setFullStep();
+    delay(1);
+  }
   int stepPerTour = 400;
   int iter = 0;
   //digitalWrite(motStep,HIGH); // Impulse start   
@@ -130,53 +129,46 @@ void loop(void)
   String command = "";
   
   if (Serial.available() > 0) {
-                // read the incoming byte:
-                //incomingByte = Serial.read();
-                //long int number_rec = Serial.parseInt();
-                //incomingByte = Serial.read();
+   
+                // Read incoming message and convert it to string
                 command = Serial.readString();
-                /*if (asked_pos = command.toInt()){
-                  Serial.print("command conveted to number : ");
-                  Serial.println(command);
-                }
-                else {
-                  Serial.print("I received: ");
-                  //Serial.println(number_rec);
-                  //Serial.print("Also: ");
-                  Serial.println(command);
-                }*/
                 
+                // First time we receive a command, we send the welcome message
                 if(firstMSG == 0) {
                   pg_version();
                   firstMSG = 1;
-                }
-                 // say what you got:
-                // 48 => 0; 48 => 1; 49 => 2; 50 => 3; 
+                }; 
                 
-                
+                // L command received, set motor on
                 if(command == "L"){
                   Serial.print("Motor On\n");
                   setMotorOn();
                 }
+                // C command, Set clockwise rotation
                 if(command == "C"){
                   //clockwise
                   Serial.print("Clockwise\n");
                   setClockwise();
                 }
+                // A command, set Anticlockwise rotation
                 if(command == "A"){
                   //anti clockwise
                   Serial.print("Anti-Clockwise\n");
                   setAntiClockwise();
                 }
+                // U command, set motor off, usefull for manual focus
+                // Or for an emergency stop
                 if(command == "U"){
                   //stop motor
                   Serial.print("Motor Off\n");
                   setMotorOff();
                 }
+                //P command, return the current position
                 if(command == "P"){
                   //Serial.print("Current position : ");
                   Serial.println(POS);
                 }
+                // If the command is a number, send a rotation of N steps
                 if(asked_pos = command.toInt()){
                   //Serial.print("Move 1 tour\n");
                   moveNstep(asked_pos);
@@ -184,13 +176,13 @@ void loop(void)
                   Serial.println(POS);
                 }
 
+                // Z command, go back to position zero
                 if(command == "Z"){
                   //Serial.print("Goto position 0\n");
                   setClockwise();
                   moveNstep(POS);
                   setAntiClockwise();
-                  //Serial.print("Position : ");
-                  //Serial.println(POS);
+                  Serial.println(POS);
                 }
                 if(command == "H"){
                   Serial.print("L: Lock mode\n");
