@@ -42,8 +42,9 @@ void setup(void)
   pinMode(motStep,OUTPUT); // Step
   pinMode(motDir,OUTPUT); // Dir
   
-  //MOTOR On
-  digitalWrite(motEnable,LOW);
+  //MOTOR Off
+  setMotorOff();
+  //digitalWrite(motEnable,LOW);
   
   // Set Dir AntiClockwise (move focuser goes up) becasue we assume position 0 with a focuser as low as possible
   setAntiClockwise();
@@ -61,7 +62,7 @@ void setup(void)
 
 void pg_version(void)
 {
-  Serial.println("DrFocuser v0.91");
+  Serial.println("DrFocuser v0.92");
   //Serial.println("Starting now !");
 }
 
@@ -123,7 +124,9 @@ int justMove(){
   {
     Timer1.detachInterrupt();
     Serial.println(String(POS)+"#");
+    setMotorOff();
   }
+  
 }
 int moveNstep(int steps)
 {
@@ -157,6 +160,7 @@ int moveNstep(int steps)
   else {
     POS -= steps;
   }
+  setMotorOff();
 }
 
 void loop(void)
@@ -186,12 +190,14 @@ void loop(void)
                   //clockwise
                   //Serial.println("Clockwise#");
                   setClockwise();
+                  setMotorOff();
                 }
                 // A command, set Anticlockwise rotation
                 if(command == "A"){
                   //anti clockwise
                   //Serial.println("Anti-Clockwise#");
                   setAntiClockwise();
+                  setMotorOff();
                 }
                 // U command, set motor off, usefull for manual focus
                 if(command == "U"){
@@ -203,6 +209,7 @@ void loop(void)
                 if(command == "S")
                 {
                   Timer1.detachInterrupt();
+                  setMotorOff();
                   //Serial.println("Emergency Stop#");
                 }
                 //P command, return the current position
@@ -216,9 +223,11 @@ void loop(void)
                   TARGET = asked_pos;
                   if (POS > TARGET and TARGET > 0){
                     setClockwise();
+                    setMotorOff();
                   }
                   if (POS < TARGET){
                     setAntiClockwise();
+                    setMotorOff();
                   }
                   steps = abs(POS - TARGET);
                   if (POS != TARGET and TARGET >= 0)
@@ -228,10 +237,12 @@ void loop(void)
                     if (steps <= 100) {
                       moveNstep(steps);
                       Serial.println(String(POS)+"#");
+                      setMotorOff();
                     }
                     // Else use asynchrone move which allows emergency stops
                     else {
                       Timer1.attachInterrupt(justMove);
+                      setMotorOff();
                     }
                   }
                   else{
@@ -247,6 +258,7 @@ void loop(void)
                   moveNstep(POS);
                   setAntiClockwise();
                   Serial.println(String(POS)+"#");
+                  setMotorOff();
                 }
                 if(command == "T"){
                   //Serial.println("OK#");

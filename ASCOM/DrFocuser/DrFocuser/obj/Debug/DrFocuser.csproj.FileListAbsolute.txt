@@ -25,3 +25,31 @@ C:\Users\DrGkill\Documents\Visual Studio 2017\Projects\DrFocuser\DrFocuser\obj\D
 C:\Users\DrGkill\Documents\Visual Studio 2017\Projects\DrFocuser\DrFocuser\obj\Debug\ASCOM.DrFocuser.Focuser.dll
 C:\Users\DrGkill\Documents\Visual Studio 2017\Projects\DrFocuser\DrFocuser\obj\Debug\ASCOM.DrFocuser.Focuser.pdb
 C:\Users\DrGkill\Documents\Visual Studio 2017\Projects\DrFocuser\DrFocuser\bin\Debug\ASCOM.DrFocuser.Focuser.tlb
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.DrFocuser.Focuser.dll.config
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.DrFocuser.Focuser.dll
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.DrFocuser.Focuser.pdb
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Astrometry.dll
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Attributes.dll
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Controls.dll
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.DeviceInterfaces.dll
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Exceptions.dll
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.SettingsProvider.dll
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Utilities.dll
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Utilities.Video.dll
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Internal.Extensions.dll
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Astrometry.xml
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Attributes.xml
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Controls.xml
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.DeviceInterfaces.xml
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Exceptions.xml
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.SettingsProvider.xml
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Utilities.xml
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\bin\Debug\ASCOM.Internal.Extensions.xml
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\obj\Debug\DrFocuser.csprojAssemblyReference.cache
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\obj\Debug\ASCOM.DrFocuser.Properties.Resources.resources
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\obj\Debug\ASCOM.DrFocuser.SetupDialogForm.resources
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\obj\Debug\DrFocuser.csproj.GenerateResource.cache
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\obj\Debug\DrFocuser.csproj.CoreCompileInputs.cache
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\obj\Debug\DrFocuser.csproj.CopyComplete
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\obj\Debug\ASCOM.DrFocuser.Focuser.dll
+E:\Astro\DrFocuser\ASCOM\DrFocuser\DrFocuser\obj\Debug\ASCOM.DrFocuser.Focuser.pdb
