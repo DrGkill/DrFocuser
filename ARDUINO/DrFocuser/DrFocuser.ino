@@ -90,6 +90,12 @@ void setMotorOn()
   MOT = 1;
 }
 
+void impulse()
+{
+  digitalWrite(motStep,HIGH); 
+  digitalWrite(motStep,LOW);
+}
+
 void setMicroStep(void)
 {
   // Set microstep mode
@@ -105,15 +111,11 @@ void setFullStep(void)
   digitalWrite(MS2,LOW);
   digitalWrite(MS3,LOW);
 }
-int justMove(){
-    //enable motor if its off and wait 1ms for it to be fully ready
-  if (MOT == 0){
-    setMotorOn();
-    setFullStep();
-    delay(1);
-  }
-  digitalWrite(motStep,HIGH); 
-  digitalWrite(motStep,LOW);
+
+// Function with timer
+void justMove(){
+   
+  impulse();
   if (DIR == 0){
     POS += 1;
   }
@@ -128,6 +130,8 @@ int justMove(){
   }
   
 }
+
+// Function without timer
 int moveNstep(int steps)
 {
   if(POS == 0 and DIR == 1 ){
@@ -149,10 +153,9 @@ int moveNstep(int steps)
   int iter = 0;
   
   while(iter < steps){
-    digitalWrite(motStep,HIGH); 
-    digitalWrite(motStep,LOW);
+    impulse();
     iter += 1;
-    delay(1); 
+    delayMicroseconds(2500); 
   }
   if (DIR == 0){
     POS += steps;
@@ -160,6 +163,7 @@ int moveNstep(int steps)
   else {
     POS -= steps;
   }
+  Serial.println(String(POS)+"#");
   setMotorOff();
 }
 
@@ -241,8 +245,13 @@ void loop(void)
                     }
                     // Else use asynchrone move which allows emergency stops
                     else {
+                      //enable motor if its off and wait 1ms for it to be fully ready
+                      if (MOT == 0){
+                        setMotorOn();
+                        setFullStep();
+                        delay(1);
+                      }
                       Timer1.attachInterrupt(justMove);
-                      setMotorOff();
                     }
                   }
                   else{
