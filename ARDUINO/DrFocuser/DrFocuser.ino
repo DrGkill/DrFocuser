@@ -26,6 +26,8 @@
 #define MS1 7
 #define MS2 8
 #define MS3 9
+#define ClockWise 0
+#define AntiClockWise 1
 //#define INITFREQ (5000)
 
 int POS = 0; // Position of the focuser
@@ -69,13 +71,13 @@ void pg_version(void)
 void setClockwise(void)
 {
   digitalWrite(motDir,HIGH);
-  DIR = 1;
+  DIR = 0;
 }
 
 void setAntiClockwise(void)
 {
   digitalWrite(motDir,LOW);
-  DIR = 0;
+  DIR = 1;
 }
 
 void setMotorOff()
@@ -116,7 +118,7 @@ void setFullStep(void)
 void justMove(){
    
   impulse();
-  if (DIR == 0){
+  if (DIR == 1){
     POS += 1;
   }
   else {
@@ -134,11 +136,11 @@ void justMove(){
 // Function without timer
 int moveNstep(int steps)
 {
-  if(POS == 0 and DIR == 1 ){
+  if(POS == 0 and DIR == 0 ){
     // We already are at the min position
     return 0;
   }
-  if(POS-steps < 0 and DIR == 1) {
+  if(POS-steps < 0 and DIR == 0) {
     // The asked position is below 0 position, so move to 0
     steps = POS;
   }
@@ -157,7 +159,7 @@ int moveNstep(int steps)
     iter += 1;
     delayMicroseconds(2500); 
   }
-  if (DIR == 0){
+  if (DIR == 1){
     POS += steps;
   }
   else {
@@ -165,6 +167,11 @@ int moveNstep(int steps)
   }
   Serial.println(String(POS)+"#");
   setMotorOff();
+}
+
+void Zero()
+{
+  POS = 0;
 }
 
 void loop(void)
@@ -265,12 +272,15 @@ void loop(void)
                   //Serial.print("Goto position 0\n");
                   setClockwise();
                   moveNstep(POS);
-                  setAntiClockwise();
+                  setClockwise();
                   Serial.println(String(POS)+"#");
                   setMotorOff();
                 }
                 if(command == "T"){
                   //Serial.println("OK#");
+                }
+                if(command == "R"){
+                  zero();
                 }
                 if(command == "H"){
                   Serial.println("L: Lock mode");
