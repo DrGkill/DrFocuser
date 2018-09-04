@@ -331,7 +331,9 @@ void loop(void)
                   Serial.println("P: Get the current position");
                   Serial.println("H: This Help");
                   Serial.println("Z: Go back to position 0");
-                  Serial.println("number: Move N steps");
+                  Serial.println("R: Reset offset to 0, no moves");
+                  Serial.println("positive number: Move to offset N");
+                  Serial.println("negative number: Move backwards of N steps, reset offset to 0");
                   Serial.println("Clockwise: decrease position, Anti-clockwise: Increase position#");
                 }
                 if(command == "V") {
