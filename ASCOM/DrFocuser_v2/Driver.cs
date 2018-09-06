@@ -69,10 +69,10 @@ namespace ASCOM.DrFocuser
         /// <summary>
         /// Driver description that displays in the ASCOM Chooser.
         /// </summary>
-        private static string driverDescription = "ASCOM Focuser Driver for DrFocuser.";
+        private static string driverDescription = "DrFocuser";
 
         internal static string comPortProfileName = "COM Port"; // Constants used for Profile persistence
-        internal static string comPortDefault = "COM6";
+        internal static string comPortDefault = "COM1";
         internal static string traceStateProfileName = "Trace Level";
         internal static string traceStateDefault = "false";
 
@@ -114,17 +114,9 @@ namespace ASCOM.DrFocuser
             utilities = new Util(); //Initialise util object
             astroUtilities = new AstroUtils(); // Initialise astro utilities object
             //TODO: Implement your additional construction here
-            SerialConnection = new ASCOM.Utilities.Serial();
-            SerialConnection.PortName = comPort;
-            SerialConnection.StopBits = SerialStopBits.One;
-            SerialConnection.Parity = SerialParity.None;
-            SerialConnection.Speed = SerialSpeed.ps115200;
-            SerialConnection.DataBits = 8;
-            SerialConnection.Connected = true;
+            
 
-            SerialConnection.Transmit("P#");
-
-            tl.LogMessage("Focuser", "Completed initialisation on " + comPort);
+            //tl.LogMessage("Focuser", "Completed initialisation on " + comPort);
 
         }
 
@@ -146,7 +138,9 @@ namespace ASCOM.DrFocuser
             // consider only showing the setup dialog if not connected
             // or call a different dialog if connected
             if (IsConnected)
+            {
                 System.Windows.Forms.MessageBox.Show("Already connected, just press OK");
+            }
 
             using (SetupDialogForm F = new SetupDialogForm())
             {
@@ -253,6 +247,15 @@ namespace ASCOM.DrFocuser
                     connectedState = true;
                     LogMessage("Connected Set", "Connecting to port {0}", comPort);
                     // TODO connect to the device
+                    SerialConnection = new ASCOM.Utilities.Serial();
+                    SerialConnection.PortName = comPort;
+                    SerialConnection.StopBits = SerialStopBits.One;
+                    SerialConnection.Parity = SerialParity.None;
+                    SerialConnection.Speed = SerialSpeed.ps115200;
+                    SerialConnection.DataBits = 8;
+                    SerialConnection.Connected = true;
+
+                    SerialConnection.Transmit("P#");
                 }
                 else
                 {
