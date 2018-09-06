@@ -1,3 +1,4 @@
+#include <EEPROM.h>
 #include <TimerOne.h>
 
 /*DrFocuser v0.8 Arduino code
@@ -28,14 +29,13 @@
 #define MS3 9
 #define ClockWise 0
 #define AntiClockWise 1
-//#define INITFREQ (5000)
 
 int POS = 0; // Position of the focuser
 int DIR = 0; // 0 = Anticlockwise, 1 = clockwise
 int MOT = 0; // 0 = Off, 1 = On
 int TARGET = 0; 
 int firstMSG = 0;
-
+int motorFreq = 500;
 
 void setup(void)
 {
@@ -109,7 +109,12 @@ void setMicroStep(void)
 void setFullStep(void)
 {
   // Set fullstep mode
-  digitalWrite(MS1,LOW); 
+  /*digitalWrite(MS1,LOW); 
+  digitalWrite(MS2,LOW);
+  digitalWrite(MS3,LOW);
+  */
+  //Half step
+  digitalWrite(MS1,HIGH); 
   digitalWrite(MS2,LOW);
   digitalWrite(MS3,LOW);
 }
@@ -131,6 +136,24 @@ void justMove(){
     setMotorOff();
   }
   
+}
+
+int moveNstepNC(int steps){
+  //enable motor if its off and wait 1ms for it to be fully ready
+  if (MOT == 0){
+    setMotorOn();
+    setFullStep();
+    delay(1);
+  }
+  
+  int iter = 0;
+  
+  while(iter < steps){
+    impulse();
+    iter += 1;
+    delayMicroseconds(motorFreq); 
+  }
+  setMotorOff();
 }
 
 // Function without timer
@@ -157,7 +180,7 @@ int moveNstep(int steps)
   while(iter < steps){
     impulse();
     iter += 1;
-    delayMicroseconds(2500); 
+    delayMicroseconds(motorFreq); 
   }
   if (DIR == 1){
     POS += steps;
@@ -165,7 +188,7 @@ int moveNstep(int steps)
   else {
     POS -= steps;
   }
-  Serial.println(String(POS)+"#");
+  //Serial.println(String(POS)+"#");
   setMotorOff();
 }
 
@@ -249,6 +272,7 @@ void loop(void)
                       moveNstep(steps);
                       Serial.println(String(POS)+"#");
                       setMotorOff();
+                      return;
                     }
                     // Else use asynchrone move which allows emergency stops
                     else {
@@ -258,11 +282,21 @@ void loop(void)
                         setFullStep();
                         delay(1);
                       }
+                      Timer1.initialize(motorFreq);
                       Timer1.attachInterrupt(justMove);
+                      return;
                     }
                   }
-                  else{
+                  if (TARGET < 0) {
+                      setClockwise();
+                      moveNstepNC(abs(TARGET));
+                      Zero();
+                      Serial.println(String(POS)+"#");
+                      return;
+                  }
+                  if (TARGET == POS) {
                     Serial.println("not moving");
+                    return;
                   }
                 }
 
@@ -280,7 +314,13 @@ void loop(void)
                   //Serial.println("OK#");
                 }
                 if(command == "R"){
-                  zero();
+                  Zero();
+                }
+                if(command == "M"){
+                  Serial.println("Entering Manual mode#");
+                  int foffset = 0;
+                  foffset = Serial.read();
+                  Serial.println(String(foffset)+"#");
                 }
                 if(command == "H"){
                   Serial.println("L: Lock mode");
@@ -291,7 +331,9 @@ void loop(void)
                   Serial.println("P: Get the current position");
                   Serial.println("H: This Help");
                   Serial.println("Z: Go back to position 0");
-                  Serial.println("number: Move N steps");
+                  Serial.println("R: Reset offset to 0, no moves");
+                  Serial.println("positive number: Move to offset N");
+                  Serial.println("negative number: Move backwards of N steps, reset offset to 0");
                   Serial.println("Clockwise: decrease position, Anti-clockwise: Increase position#");
                 }
                 if(command == "V") {
